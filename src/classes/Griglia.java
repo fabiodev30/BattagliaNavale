@@ -8,6 +8,7 @@ public class Griglia {
     private Integer dimensioneGriglia;
     private int[][] griglia;
     private Integer nNavi;
+    private Integer nNaviRimaste;
     private Scanner scanner;
     private List<Nave> navi;
 
@@ -15,12 +16,13 @@ public class Griglia {
         this.dimensioneGriglia = dimensioneGriglia;
         this.griglia = new int[dimensioneGriglia][dimensioneGriglia];
         this.nNavi = dimensioneGriglia * dimensioneGriglia / 3;
+        this.nNaviRimaste = nNavi;
         this.scanner = new Scanner(System.in);
         this.navi = new ArrayList<>();
     }
 
     // Crea griglia vuota con 0
-    public void creaGriglia() {
+    private void creaGriglia() {
         for (int i = 0; i < dimensioneGriglia; i++) {
             for (int j = 0; j < dimensioneGriglia; j++) {
                 griglia[i][j] = 0;
@@ -29,54 +31,81 @@ public class Griglia {
     }
 
     // Creazione nave
-    public Nave creaNave() {
+    private Nave creaNave() {
         boolean naveCreata = false;
         Nave nave = null;
         List<Coordinate> coordinate = null;
 
         while (!naveCreata) {
+            coordinate = new ArrayList<>();
             nave = new Nave();
+
+            // Inserimento nome nave
             System.out.println("Inserisci il nome della nave:");
+            scanner = new Scanner(System.in);
             String nome = scanner.nextLine();
             nave.setNome(nome);
 
+            // Inserimento lunghezza nave
             System.out.println("Inserisci la lunghezza della nave:");
-            String lunghezzaInput = scanner.nextLine();
-            int lunghezza;
-            try {
-                lunghezza = Integer.parseInt(lunghezzaInput);
-                if (lunghezza <= 0) {
-                    throw new NumberFormatException();
+            int lunghezza = 0;
+            scanner = new Scanner(System.in);
+            while (lunghezza <= 0 || lunghezza > dimensioneGriglia) {
+                lunghezza = scanner.nextInt();
+                if (lunghezza > dimensioneGriglia) {
+                    System.out.println("La lunghezza della nave è maggiore della dimensione della griglia. Riprova.");
+                } else if (lunghezza <= 0) {
+                    System.out.println("La lunghezza della nave deve essere maggiore di 0. Riprova.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Lunghezza non valida. Riprova.");
-                System.out.println("La Lunghezza deve essere un numero intero e maggiore di 0.");
-                continue;
             }
             nave.setLunghezza(lunghezza);
 
+            // Inserimento coordinate nave
             System.out.println("Inserisci la coordinata x di partenza della nave:");
+            scanner = new Scanner(System.in);
             int x = scanner.nextInt();
             System.out.println("Inserisci la coordinata y di partenza della nave:");
+            scanner = new Scanner(System.in);
             int y = scanner.nextInt();
             Coordinate c = new Coordinate(x, y);
-            coordinate = new ArrayList<>();
+
+            // Controllo se la nave è fuori dalla griglia
+            if (!controlliCoordinate(x, y)) {
+                System.out.println("La nave è fuori dalla griglia");
+                continue;
+            }
+            // se passa il controllo, aggiungo la coordinata alla nave
             coordinate.add(c);
+            boolean isOutOrAlreadyExist = false;
 
             if (lunghezza > 1) {
                 System.out.println("Inserisci l'orientamento della nave (1: verticale, 2: orizzontale):");
+                scanner = new Scanner(System.in);
                 int orientamento = scanner.nextInt();
-                if (orientamento == 1) {
-                    for (int i = 1; i < lunghezza; i++) {
-                        Coordinate c1 = new Coordinate(x + i, y);
-                        coordinate.add(c1);
+
+                for (int i = 0; i < lunghezza; i++) {
+                    Coordinate c1;
+                    if (orientamento == 1) {
+                        if (!controlliCoordinate(x + i, y)) {
+                            System.out.println("La nave è fuori dalla griglia o sovrapposta ad un'altra nave");
+                            isOutOrAlreadyExist = true;
+                            break;
+                        }
+                        c1 = new Coordinate(x + i, y);
+                    } else {
+                        if (!controlliCoordinate(x, y + i)) {
+                            System.out.println("La nave è fuori dalla griglia o sovrapposta ad un'altra nave");
+                            isOutOrAlreadyExist = true;
+                            break;
+                        }
+                        c1 = new Coordinate(x, y + i);
                     }
-                } else {
-                    for (int i = 1; i < lunghezza; i++) {
-                        Coordinate c1 = new Coordinate(x, y + i);
-                        coordinate.add(c1);
-                    }
+                    coordinate.add(c1);
                 }
+            }
+
+            if (isOutOrAlreadyExist) {
+                continue;
             }
 
             boolean posizioneOccupata = coordinate.stream().anyMatch(nCoordinate -> griglia[nCoordinate.getX()][nCoordinate.getY()] == 1);
@@ -93,12 +122,18 @@ public class Griglia {
     }
 
     // Questa funzione inserisce le navi fino a che non sono finite
-    public void inserisciNavi() {
+    private void inserisciNavi() {
         for (int i = 0; i < nNavi; i++) {
-            System.out.println("Inserisci Nuova nave");
+            System.out.println("Navi rimaste da inserire: " + nNaviRimaste);
+            // chiedere all'utente di inserire la nave se vuole
+            System.out.println("Vuoi inserire una nave? (1: si, 2: no)");
+            int scelta = scanner.nextInt();
+            if (scelta == 2) {
+                break;
+            }
             Nave nave = creaNave();
             navi.add(nave);
-
+            nNaviRimaste--;
             // Stampa nave inserita con nome
             System.out.println("Nave inserita: " + nave.getNome());
             List<Coordinate> coordinate = nave.getCoordinate();
@@ -109,7 +144,7 @@ public class Griglia {
     }
 
     // Stampa griglia
-    public void stampaGriglia() {
+    private void stampaGriglia() {
         for (int i = 0; i < dimensioneGriglia; i++) {
             for (int j = 0; j < dimensioneGriglia; j++) {
                 System.out.print(griglia[i][j] + " ");
@@ -119,7 +154,7 @@ public class Griglia {
     }
 
     // Colpisci Nave
-    public void colpisciNave() {
+    private void colpisciNave() {
         System.out.println("Inserisci la coordinata x di colpo:");
         int x = scanner.nextInt();
         System.out.println("Inserisci la coordinata y di colpo:");
@@ -133,17 +168,15 @@ public class Griglia {
             if (naveAffondata != null) {
                 System.out.println("Hai affondato la nave " + naveAffondata.getNome());
             }
-
         } else {
             System.out.println("Hai colpito l'acqua!");
         }
     }
 
     // Verifica se la nave è affondata
-    public Nave isNaveAffondata(Integer x, Integer y) {
+    private Nave isNaveAffondata(Integer x, Integer y) {
         for (Nave nave : navi) {
-            boolean tuttePosizioniColpite = nave.getCoordinate().stream()
-                    .allMatch(coordinate -> griglia[coordinate.getX()][coordinate.getY()] == 0);
+            boolean tuttePosizioniColpite = nave.getCoordinate().stream().allMatch(coordinate -> griglia[coordinate.getX()][coordinate.getY()] == 0);
             if (tuttePosizioniColpite) {
                 return nave;
             }
@@ -151,13 +184,30 @@ public class Griglia {
         return null;
     }
 
-    public boolean checkVittoria() {
+    private boolean checkVittoria() {
         for (int i = 0; i < dimensioneGriglia; i++) {
             for (int j = 0; j < dimensioneGriglia; j++) {
                 if (griglia[i][j] == 1) {
                     return false;
                 }
             }
+        }
+        return true;
+    }
+
+    // Check se la x e la y che stiamo inserendo nella griglia non sono già state inserite
+    private boolean checkCoordinate(int x, int y) {
+        return griglia[x][y] == 0;
+    }
+
+    private boolean controlliCoordinate(Integer x, Integer y) {
+        return checkCoordinate(x, y) && controlloCoordinataDimensione(x, y);
+    }
+
+    private Boolean controlloCoordinataDimensione(Integer x, Integer y) {
+        if (x >= dimensioneGriglia || y >= dimensioneGriglia) {
+            System.out.println("La nave non può essere inserita in questa posizione. Riprova.");
+            return false;
         }
         return true;
     }
