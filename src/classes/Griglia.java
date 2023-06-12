@@ -70,7 +70,7 @@ public class Griglia {
             Coordinate c = new Coordinate(x, y);
 
             // Controllo se la nave è fuori dalla griglia
-            if (!controlliCoordinate(x, y)) {
+            if (controlCoordinate(x, y)) {
                 System.out.println("La nave è fuori dalla griglia");
                 continue;
             }
@@ -86,14 +86,14 @@ public class Griglia {
                 for (int i = 0; i < lunghezza; i++) {
                     Coordinate c1;
                     if (orientamento == 1) {
-                        if (!controlliCoordinate(x + i, y)) {
+                        if (controlCoordinate(x + i, y)) {
                             System.out.println("La nave è fuori dalla griglia o sovrapposta ad un'altra nave");
                             isOutOrAlreadyExist = true;
                             break;
                         }
                         c1 = new Coordinate(x + i, y);
                     } else {
-                        if (!controlliCoordinate(x, y + i)) {
+                        if (controlCoordinate(x, y + i)) {
                             System.out.println("La nave è fuori dalla griglia o sovrapposta ad un'altra nave");
                             isOutOrAlreadyExist = true;
                             break;
@@ -164,7 +164,7 @@ public class Griglia {
             System.out.println("Hai colpito una nave!");
             griglia[c.getX()][c.getY()] = 0;
             // Verifica se la nave è affondata
-            Nave naveAffondata = isNaveAffondata(x, y);
+            Nave naveAffondata = isNaveAffondata();
             if (naveAffondata != null) {
                 System.out.println("Hai affondato la nave " + naveAffondata.getNome());
             }
@@ -174,8 +174,9 @@ public class Griglia {
     }
 
     // Verifica se la nave è affondata
-    private Nave isNaveAffondata(Integer x, Integer y) {
+    private Nave isNaveAffondata() {
         for (Nave nave : navi) {
+            // Verifica se tutte le posizioni della nave sono state colpite
             boolean tuttePosizioniColpite = nave.getCoordinate().stream().allMatch(coordinate -> griglia[coordinate.getX()][coordinate.getY()] == 0);
             if (tuttePosizioniColpite) {
                 return nave;
@@ -200,8 +201,8 @@ public class Griglia {
         return griglia[x][y] == 0;
     }
 
-    private boolean controlliCoordinate(Integer x, Integer y) {
-        return checkCoordinate(x, y) && controlloCoordinataDimensione(x, y);
+    private boolean controlCoordinate(Integer x, Integer y) {
+        return !checkCoordinate(x, y) || !controlloCoordinataDimensione(x, y);
     }
 
     private Boolean controlloCoordinataDimensione(Integer x, Integer y) {

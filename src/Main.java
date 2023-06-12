@@ -20,7 +20,7 @@ public class Main {
 
         // Inizio gioco
         boolean turnoGiocatore1 = true;
-        // Inizia il gioco
+        // Inizia il gioco finchè uno dei due giocatori non ha vinto
         while (!grigliaGiocatore1.checkVittoria() && !grigliaGiocatore2.checkVittoria()) {
             System.out.println();
             if (turnoGiocatore1) {
