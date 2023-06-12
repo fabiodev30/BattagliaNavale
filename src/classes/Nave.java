@@ -8,12 +8,6 @@ public class Nave {
     private String nome;
 
 
-    public Nave(List<Coordinate> coordinate, Integer lunghezza) {
-        this.coordinate = coordinate;
-        this.lunghezza = lunghezza;
-
-    }
-
     public Nave() {
         this.coordinate = null;
         this.lunghezza = 0;
