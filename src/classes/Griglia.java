@@ -144,7 +144,7 @@ public class Griglia {
     }
 
     // Stampa griglia
-    private void stampaGriglia() {
+    public void stampaGriglia() {
         for (int i = 0; i < dimensioneGriglia; i++) {
             for (int j = 0; j < dimensioneGriglia; j++) {
                 System.out.print(griglia[i][j] + " ");
@@ -154,7 +154,7 @@ public class Griglia {
     }
 
     // Colpisci Nave
-    private void colpisciNave() {
+    public void colpisciNave() {
         System.out.println("Inserisci la coordinata x di colpo:");
         int x = scanner.nextInt();
         System.out.println("Inserisci la coordinata y di colpo:");
@@ -184,7 +184,7 @@ public class Griglia {
         return null;
     }
 
-    private boolean checkVittoria() {
+    public boolean checkVittoria() {
         for (int i = 0; i < dimensioneGriglia; i++) {
             for (int j = 0; j < dimensioneGriglia; j++) {
                 if (griglia[i][j] == 1) {
@@ -214,16 +214,17 @@ public class Griglia {
 
     // Start
     public void start() {
+        // Crea griglia e inserisci navi
         creaGriglia();
         inserisciNavi();
         stampaGriglia();
-        while (true) {
+        /*while (true) {
             colpisciNave();
             stampaGriglia();
             if (checkVittoria()) {
                 System.out.println("Hai vinto!");
                 break;
             }
-        }
+        }*/
     }
 }

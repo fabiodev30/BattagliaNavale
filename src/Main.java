@@ -9,7 +9,35 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Inserisci la dimensione della griglia:");
         Integer dimensioneGriglia = scanner.nextInt();
-        Griglia griglia = new Griglia(dimensioneGriglia);
-        griglia.start();
+        // Creazione della griglia giocatore 1
+        System.out.println("Inserinamento Navi Griglia Giocatore 1");
+        Griglia grigliaGiocatore1 = new Griglia(dimensioneGriglia);
+        grigliaGiocatore1.start();
+        // creazione della griglia giocatore 2
+        System.out.println("Inserinamento Navi Griglia Giocatore 2");
+        Griglia grigliaGiocatore2 = new Griglia(dimensioneGriglia);
+        grigliaGiocatore2.start();
+
+        // Inizio gioco
+        boolean turnoGiocatore1 = true;
+        // Inizia il gioco
+        while (!grigliaGiocatore1.checkVittoria() && !grigliaGiocatore2.checkVittoria()) {
+            System.out.println();
+            if (turnoGiocatore1) {
+                System.out.println("Turno del Giocatore 1");
+                grigliaGiocatore2.colpisciNave();
+                grigliaGiocatore2.stampaGriglia();
+            } else {
+                System.out.println("Turno del Giocatore 2");
+                grigliaGiocatore1.colpisciNave();
+                grigliaGiocatore1.stampaGriglia();
+            }
+            turnoGiocatore1 = !turnoGiocatore1;
+        }
+        if (grigliaGiocatore1.checkVittoria()) {
+            System.out.println("Ha vinto Giocatore 2");
+        } else {
+            System.out.println("Ha vinto il Giocatore 1");
+        }
     }
 }
