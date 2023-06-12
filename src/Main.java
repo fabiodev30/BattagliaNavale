@@ -35,9 +35,9 @@ public class Main {
             turnoGiocatore1 = !turnoGiocatore1;
         }
         if (grigliaGiocatore1.checkVittoria()) {
-            System.out.println("Ha vinto Giocatore 2");
+            System.out.println("Hai vinto Giocatore 2");
         } else {
-            System.out.println("Ha vinto il Giocatore 1");
+            System.out.println("Hai vinto Giocatore 1");
         }
     }
 }
