@@ -19,4 +19,9 @@ public class Punteggio {
     public void aumentaPunteggio() {
         this.punteggio++;
     }
+
+    // azzera punteggio
+    public void azzeraPunteggio() {
+        this.punteggio = 0;
+    }
 }

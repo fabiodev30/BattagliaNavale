@@ -13,18 +13,39 @@ public class Main {
         Punteggio punteggioGiocatore2 = new Punteggio();
         System.out.println("BENVENUTO A BATTAGLIA NAVALE");
         while (true) {
-            // COSA FARE:
-            // CONTINUARE A GIOCARE O TERMINARE IL GIOCO
-            // Inserimento dimensione griglia
             if (isFirtsGame) {
                 isFirtsGame = false;
             } else {
-                System.out.println("\nVuoi giocare un'altra partita? (S/N)");
+                /*System.out.println("\nVuoi giocare un'altra partita? (S/N)");
                 Scanner scanner = new Scanner(System.in);
                 String risposta = scanner.nextLine();
                 if (risposta.equals("N")) {
                     System.out.println("Grazie per aver giocato!");
                     break;
+                }*/
+                // MENU SCelta 0 - esci dal gioco 1 - ricomincia partita da zero 2 - continua partita
+                System.out.println("\nMENU");
+                System.out.println("0 - Esci dal gioco");
+                System.out.println("1 - Ricomincia partita da zero");
+                System.out.println("2 - Continua partita");
+                Scanner scanner = new Scanner(System.in);
+                // fino a che non inserisce un numero valido ovvero un numero tra 0 e 2
+                Boolean isNumeroValido = false;
+                while (!isNumeroValido) {
+                    Integer scelta = scanner.nextInt();
+                    if (scelta == 0) {
+                        System.out.println("Grazie per aver giocato!");
+                        return;
+                    } else if (scelta == 1) {
+                        punteggioGiocatore1.azzeraPunteggio();
+                        punteggioGiocatore2.azzeraPunteggio();
+                        System.out.println("Punteggi azzerati!");
+                        isNumeroValido = true;
+                    } else if (scelta == 2) {
+                        isNumeroValido = true;
+                    } else {
+                        System.out.println("Inserisci un numero valido");
+                    }
                 }
             }
             Scanner scanner = new Scanner(System.in);
