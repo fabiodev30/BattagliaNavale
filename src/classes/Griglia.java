@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Griglia {
     private Integer dimensioneGriglia;
-    private int[][] griglia;
+    private Integer[][] griglia;
     private Integer nNavi;
     private Integer nNaviRimaste;
     private Scanner scanner;
@@ -14,7 +14,7 @@ public class Griglia {
 
     public Griglia(Integer dimensioneGriglia) {
         this.dimensioneGriglia = dimensioneGriglia;
-        this.griglia = new int[dimensioneGriglia][dimensioneGriglia];
+        this.griglia = new Integer[dimensioneGriglia][dimensioneGriglia];
         this.nNavi = dimensioneGriglia * dimensioneGriglia / 3;
         this.nNaviRimaste = nNavi;
         this.scanner = new Scanner(System.in);
@@ -48,7 +48,7 @@ public class Griglia {
 
             // Inserimento lunghezza nave
             System.out.println("Inserisci la lunghezza della nave:");
-            int lunghezza = 0;
+            Integer lunghezza = 0;
             scanner = new Scanner(System.in);
             while (lunghezza <= 0 || lunghezza > dimensioneGriglia) {
                 lunghezza = scanner.nextInt();
@@ -63,15 +63,29 @@ public class Griglia {
             // Inserimento coordinate nave
             System.out.println("Inserisci la coordinata x di partenza della nave:");
             scanner = new Scanner(System.in);
-            int x = scanner.nextInt();
+            // Inserimento coordinate x deve essere un numero compreso tra 0 compreso e la dimensione della griglia
+            Integer x = -1;
+            while (x < 0 || x >= dimensioneGriglia) {
+                x = scanner.nextInt();
+                if (x < 0 || x >= dimensioneGriglia) {
+                    System.out.println("La coordinata x deve essere compresa tra 0 e " + (dimensioneGriglia - 1) + ". Riprova.");
+                }
+            }
+
             System.out.println("Inserisci la coordinata y di partenza della nave:");
             scanner = new Scanner(System.in);
-            int y = scanner.nextInt();
+            Integer y = -1;
+            while (y < 0 || y >= dimensioneGriglia) {
+                y = scanner.nextInt();
+                if (y < 0 || y >= dimensioneGriglia) {
+                    System.out.println("La coordinata x deve essere compresa tra 0 e " + (dimensioneGriglia - 1) + ". Riprova.");
+                }
+            }
             Coordinate c = new Coordinate(x, y);
 
             // Controllo se la nave è fuori dalla griglia
             if (controlCoordinate(x, y)) {
-                System.out.println("La nave è fuori dalla griglia");
+                System.out.println("La nave è fuori dalla griglia o sovrapposta ad un'altra nave");
                 continue;
             }
             // se passa il controllo, aggiungo la coordinata alla nave
@@ -107,8 +121,8 @@ public class Griglia {
             if (isOutOrAlreadyExist) {
                 continue;
             }
-
-            boolean posizioneOccupata = coordinate.stream().anyMatch(nCoordinate -> griglia[nCoordinate.getX()][nCoordinate.getY()] == 1);
+            // Controllo se la nave è sovrapposta ad un'altra nave
+            Boolean posizioneOccupata = coordinate.stream().anyMatch(nCoordinate -> griglia[nCoordinate.getX()][nCoordinate.getY()] == 1);
             if (!posizioneOccupata) {
                 naveCreata = true;
             } else {
@@ -127,7 +141,7 @@ public class Griglia {
             System.out.println("Navi rimaste da inserire: " + nNaviRimaste);
             // chiedere all'utente di inserire la nave se vuole
             System.out.println("Vuoi inserire una nave? (1: si, 2: no)");
-            int scelta = scanner.nextInt();
+            Integer scelta = scanner.nextInt();
             if (scelta == 2) {
                 break;
             }
@@ -156,9 +170,9 @@ public class Griglia {
     // Colpisci Nave
     public void colpisciNave() {
         System.out.println("Inserisci la coordinata x di colpo:");
-        int x = scanner.nextInt();
+        Integer x = scanner.nextInt();
         System.out.println("Inserisci la coordinata y di colpo:");
-        int y = scanner.nextInt();
+        Integer y = scanner.nextInt();
         Coordinate c = new Coordinate(x, y);
         if (griglia[c.getX()][c.getY()] == 1) {
             System.out.println("Hai colpito una nave!");
@@ -177,7 +191,7 @@ public class Griglia {
     private Nave isNaveAffondata() {
         for (Nave nave : navi) {
             // Verifica se tutte le posizioni della nave sono state colpite
-            boolean tuttePosizioniColpite = nave.getCoordinate().stream().allMatch(coordinate -> griglia[coordinate.getX()][coordinate.getY()] == 0);
+            Boolean tuttePosizioniColpite = nave.getCoordinate().stream().allMatch(coordinate -> griglia[coordinate.getX()][coordinate.getY()] == 0);
             if (tuttePosizioniColpite) {
                 return nave;
             }

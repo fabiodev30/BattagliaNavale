@@ -18,12 +18,6 @@ public class Nave {
         return this.coordinate;
 
     }
-
-    public Integer getLunghezza() {
-        return this.lunghezza;
-
-    }
-
     public void setCoordinate(List<Coordinate> coordinate) {
         this.coordinate = coordinate;
 
@@ -37,6 +31,10 @@ public class Nave {
     public String getNome() {
         return this.nome;
 
+    }
+
+    public Integer getLunghezza() {
+        return this.lunghezza;
     }
 
     public void setNome(String nome) {

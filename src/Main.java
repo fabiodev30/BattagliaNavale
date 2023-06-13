@@ -19,7 +19,7 @@ public class Main {
         grigliaGiocatore2.start();
 
         // Inizio gioco
-        boolean turnoGiocatore1 = true;
+        Boolean turnoGiocatore1 = true;
         // Inizia il gioco finchè uno dei due giocatori non ha vinto
         while (!grigliaGiocatore1.checkVittoria() && !grigliaGiocatore2.checkVittoria()) {
             System.out.println();
