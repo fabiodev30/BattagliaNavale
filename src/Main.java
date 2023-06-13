@@ -10,11 +10,11 @@ public class Main {
         System.out.println("Inserisci la dimensione della griglia:");
         Integer dimensioneGriglia = scanner.nextInt();
         // Creazione della griglia giocatore 1
-        System.out.println("Inserinamento Navi Griglia Giocatore 1");
+        System.out.println("\nInserinamento Navi Griglia Giocatore 1");
         Griglia grigliaGiocatore1 = new Griglia(dimensioneGriglia);
         grigliaGiocatore1.start();
         // creazione della griglia giocatore 2
-        System.out.println("Inserinamento Navi Griglia Giocatore 2");
+        System.out.println("\nInserinamento Navi Griglia Giocatore 2");
         Griglia grigliaGiocatore2 = new Griglia(dimensioneGriglia);
         grigliaGiocatore2.start();
 

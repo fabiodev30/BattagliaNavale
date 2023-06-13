@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Griglia {
+    private Boolean isPrimoGiro;
     private Integer dimensioneGriglia;
     private Integer[][] griglia;
     private Integer nNavi;
@@ -19,6 +20,7 @@ public class Griglia {
         this.nNaviRimaste = nNavi;
         this.scanner = new Scanner(System.in);
         this.navi = new ArrayList<>();
+        this.isPrimoGiro = true;
     }
 
     // Crea griglia vuota con 0
@@ -139,11 +141,16 @@ public class Griglia {
     private void inserisciNavi() {
         for (int i = 0; i < nNavi; i++) {
             System.out.println("Navi rimaste da inserire: " + nNaviRimaste);
-            // chiedere all'utente di inserire la nave se vuole
-            System.out.println("Vuoi inserire una nave? (1: si, 2: no)");
-            Integer scelta = scanner.nextInt();
-            if (scelta == 2) {
-                break;
+            if (isPrimoGiro){
+                System.out.println("\nPartenza del gioco. Inserisci la prima nave.");
+                isPrimoGiro = false;
+            }else {
+                // chiedere all'utente di inserire la nave se vuole
+                System.out.println("Vuoi inserire una nave? (1: si, 2: no)");
+                Integer scelta = scanner.nextInt();
+                if (scelta == 2) {
+                    break;
+                }
             }
             Nave nave = creaNave();
             navi.add(nave);
