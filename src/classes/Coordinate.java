@@ -1,10 +1,12 @@
 package classes;
 
-public class Coordinate {
-    private int x;
-    private int y;
+import java.util.Objects;
 
-    public Coordinate(int x, int y) {
+public class Coordinate {
+    private Integer x;
+    private Integer y;
+
+    public Coordinate(Integer x, Integer y) {
         this.x = x;
         this.y = y;
 
@@ -16,28 +18,28 @@ public class Coordinate {
 
     }
 
-    public int getX() {
+    public Integer getX() {
         return this.x;
 
     }
 
-    public int getY() {
+    public Integer getY() {
         return this.y;
 
     }
 
-    public void setX(int x) {
+    public void setX(Integer x) {
         this.x = x;
 
     }
 
-    public void setY(int y) {
+    public void setY(Integer y) {
         this.y = y;
 
     }
 
     public boolean equals(Coordinate c) {
-        return this.x == c.getX() && this.y == c.getY();
+        return Objects.equals(this.x, c.getX()) && Objects.equals(this.y, c.getY());
 
     }
 
