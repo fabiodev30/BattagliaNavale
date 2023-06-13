@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -48,39 +49,57 @@ public class Griglia {
             String nome = scanner.nextLine();
             nave.setNome(nome);
 
-            // Inserimento lunghezza nave
-            System.out.println("Inserisci la lunghezza della nave:");
+
             Integer lunghezza = 0;
             scanner = new Scanner(System.in);
-            while (lunghezza <= 0 || lunghezza > dimensioneGriglia) {
-                lunghezza = scanner.nextInt();
-                if (lunghezza > dimensioneGriglia) {
-                    System.out.println("La lunghezza della nave è maggiore della dimensione della griglia. Riprova.");
-                } else if (lunghezza <= 0) {
-                    System.out.println("La lunghezza della nave deve essere maggiore di 0. Riprova.");
+            while (lunghezza <= 0 || lunghezza > dimensioneGriglia) {// Inserimento lunghezza nave
+                System.out.println("\nInserisci la lunghezza della nave:");
+                try {
+                    lunghezza = scanner.nextInt();
+                    if (lunghezza > dimensioneGriglia) {
+                        System.out.println("La lunghezza della nave è maggiore della dimensione della griglia. Riprova.");
+                    } else if (lunghezza <= 0) {
+                        System.out.println("La lunghezza della nave deve essere maggiore di 0. Riprova.");
+                    }
+                }catch (InputMismatchException e){
+                    System.out.println("La lunghezza della nave deve essere un numero. Riprova.");
+                    scanner.nextLine(); // Per consumare l'input non valido e passare alla riga successiva
+                    continue; // Torna al ciclo 'while'
                 }
             }
             nave.setLunghezza(lunghezza);
 
-            // Inserimento coordinate nave
-            System.out.println("Inserisci la coordinata x di partenza della nave:");
+
             scanner = new Scanner(System.in);
             // Inserimento coordinate x deve essere un numero compreso tra 0 compreso e la dimensione della griglia
             Integer x = -1;
             while (x < 0 || x >= dimensioneGriglia) {
-                x = scanner.nextInt();
-                if (x < 0 || x >= dimensioneGriglia) {
-                    System.out.println("La coordinata x deve essere compresa tra 0 e " + (dimensioneGriglia - 1) + ". Riprova.");
+                // Inserimento coordinate nave
+                System.out.println("Inserisci la coordinata x di partenza della nave:");
+                try {
+                    x = scanner.nextInt();
+                    if (x < 0 || x >= dimensioneGriglia) {
+                        System.out.println("La coordinata x deve essere compresa tra 0 e " + (dimensioneGriglia - 1) + ". Riprova.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("La coordinata x deve essere un numero. Riprova.");
+                    scanner.nextLine(); // Per consumare l'input non valido e passare alla riga successiva
+                    continue; // Torna al ciclo 'while'
                 }
             }
-
-            System.out.println("Inserisci la coordinata y di partenza della nave:");
             scanner = new Scanner(System.in);
             Integer y = -1;
             while (y < 0 || y >= dimensioneGriglia) {
-                y = scanner.nextInt();
-                if (y < 0 || y >= dimensioneGriglia) {
-                    System.out.println("La coordinata x deve essere compresa tra 0 e " + (dimensioneGriglia - 1) + ". Riprova.");
+                System.out.println("Inserisci la coordinata y di partenza della nave:");
+                try {
+                    y = scanner.nextInt();
+                    if (y < 0 || y >= dimensioneGriglia) {
+                        System.out.println("La coordinata x deve essere compresa tra 0 e " + (dimensioneGriglia - 1) + ". Riprova.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("La coordinata y deve essere un numero. Riprova.");
+                    scanner.nextLine(); // Per consumare l'input non valido e passare alla riga successiva
+                    continue; // Torna al ciclo 'while'
                 }
             }
             Coordinate c = new Coordinate(x, y);
@@ -240,13 +259,5 @@ public class Griglia {
         creaGriglia();
         inserisciNavi();
         stampaGriglia();
-        /*while (true) {
-            colpisciNave();
-            stampaGriglia();
-            if (checkVittoria()) {
-                System.out.println("Hai vinto!");
-                break;
-            }
-        }*/
     }
 }

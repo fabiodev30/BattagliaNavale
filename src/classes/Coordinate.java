@@ -38,11 +38,6 @@ public class Coordinate {
 
     }
 
-    public boolean equals(Coordinate c) {
-        return Objects.equals(this.x, c.getX()) && Objects.equals(this.y, c.getY());
-
-    }
-
     public String toString() {
         return "(" + this.x + ", " + this.y + ")";
 

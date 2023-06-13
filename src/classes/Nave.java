@@ -1,5 +1,6 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Nave {
@@ -9,7 +10,7 @@ public class Nave {
 
 
     public Nave() {
-        this.coordinate = null;
+        this.coordinate = new ArrayList<>();
         this.lunghezza = 0;
 
     }
