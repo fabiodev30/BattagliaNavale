@@ -18,6 +18,7 @@ public class Nave {
         return this.coordinate;
 
     }
+
     public void setCoordinate(List<Coordinate> coordinate) {
         this.coordinate = coordinate;
 

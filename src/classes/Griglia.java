@@ -141,10 +141,10 @@ public class Griglia {
     private void inserisciNavi() {
         for (int i = 0; i < nNavi; i++) {
             System.out.println("Navi rimaste da inserire: " + nNaviRimaste);
-            if (isPrimoGiro){
+            if (isPrimoGiro) {
                 System.out.println("\nPartenza del gioco. Inserisci la prima nave.");
                 isPrimoGiro = false;
-            }else {
+            } else {
                 // chiedere all'utente di inserire la nave se vuole
                 System.out.println("Vuoi inserire una nave? (1: si, 2: no)");
                 Integer scelta = scanner.nextInt();
